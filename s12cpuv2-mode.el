@@ -166,14 +166,14 @@
   (indent-line-to 0))
 
 (defun s12cpuv2-goto-label (&optional label)
-  "Go to LABEL."
+  "Go to the definition of LABEL."
   (interactive)
   (let ((label (or label (read-minibuffer "Go to Label: "))))
     (goto-char (point-min))
     (re-search-forward (format "^%s" label))))
 
 (defun s12cpuv2-goto-label-at-cursor ()
-  "Go to the label under point."
+  "Go to the definition of the label under point."
   (interactive)
   (s12cpuv2-goto-label (symbol-at-point)))
 
