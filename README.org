@@ -1,0 +1,20 @@
+* s12cpuv2-mode
+
+An Emacs major mode for the the assembly language of the Freescale S12CPUV2, as
+seen on the MC9S12C128 microcontroller.
+
+** Features
+
+- Syntactic highlighting
+- Syntactic indentation
+
+** Installation
+
+mips-mode is available on MELPA. To install:
+
+~M-x package-install RET s12cpuv2-mode~
+
+** Keybindings
+
+- ~C-c l~ places your cursor at the specified label
+- ~C-c C-l~ places your cursor at the definition of the label under your cursor
