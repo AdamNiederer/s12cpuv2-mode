@@ -10,7 +10,7 @@ seen on the MC9S12C128 microcontroller.
 
 ** Installation
 
-mips-mode is available on MELPA. To install:
+s12cpuv2-mode is available on MELPA. To install:
 
 ~M-x package-install RET s12cpuv2-mode~
 
