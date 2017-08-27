@@ -5,7 +5,8 @@
 ;; Author: Adam Niederer <adam.niederer@gmail.com>
 ;; URL: https://github.com/AdamNiederer/s12cpuv2-mode
 ;; Version: 0.1
-;; Keywords: s12cpuv2 assembly
+;; Keywords: s12cpuv2 assembly languages
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -121,10 +122,8 @@
 
 (defvar s12cpuv2-mode-map
   (let ((map (make-keymap)))
-    (define-key map (kbd "<backtab>") 's12cpuv2-dedent)
-    (define-key map (kbd "TAB") 's12cpuv2-indent)
     (define-key map (kbd "C-c C-l") 's12cpuv2-goto-label-at-cursor)
-    (define-key map (kbd "C-c l") 's12cpuv2-goto-label)
+    (define-key map (kbd "C-c C-k") 's12cpuv2-goto-label)
     map)
   "Keymap for s12cpuv2-mode.")
 
@@ -187,6 +186,7 @@
 
   (setq-local comment-start ";")
   (setq-local comment-end "")
+  (setq-local indent-line-function 's12cpuv2-indent)
 
   (modify-syntax-entry ?' "\"" s12cpuv2-mode-syntax-table)
   (modify-syntax-entry ?\; "< b" s12cpuv2-mode-syntax-table)
