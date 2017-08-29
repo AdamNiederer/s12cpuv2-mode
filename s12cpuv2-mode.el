@@ -76,7 +76,8 @@
     "tsx" "tsy" "txs" "tys" "wai" "wav" "xgdx" "xgdy"))
 
 (defconst s12cpuv2-ops
-  '("ORG" ".ORG"
+  '("ABSENTRY"
+    "ORG" ".ORG"
     "EQU" "SET"
     "DC.B" "DB" "FCB" ".BYTE"
     "FCC"
@@ -86,7 +87,9 @@
     "DS.W" ".BLKW"
     "DS.L" ".BLKL"
     "END" ".END"
+    "XDEF"
 
+    "absentry"
     "org" ".org"
     "equ" "set"
     "dc.b" "db" "fcb" ".byte"
@@ -96,7 +99,8 @@
     "ds" "ds.b" "rmb" ".blkb"
     "ds.w" ".blkw"
     "ds.l" ".blkl"
-    "end" ".end"))
+    "end" ".end"
+    "xdef"))
 
 (defconst s12cpuv2-registers
   '("A" "B" "D" "SP" "X" "Y" "PC" "C"
@@ -104,6 +108,9 @@
 
 (defconst s12cpuv2-label-re
   "^[a-zA-Z0-9_$.]+:?")
+
+(defconst s12cpuv2-empty-label-re
+  (concat s12cpuv2-label-re " *$"))
 
 (defconst s12cpuv2-font-lock-defaults
   `((;; labels
@@ -131,8 +138,15 @@
   "Indent the current line according to `s12cpuv2-tab-width'."
   (interactive)
   (cond
+   ;; Line consists solely of a label
+   ((string-match-p s12cpuv2-empty-label-re (buffer-substring (point-at-bol) (point-at-eol)))
+    (end-of-line)
+    (let ((instr-space-delta (- (point) (point-at-bol) 16)))
+      (if (> instr-space-delta 0)
+            (delete-char (- instr-space-delta))
+        (insert (make-string (- instr-space-delta) ?\s)))))
    ;; Line is of the form INSTR ARGS COMMENT?
-   ((string-match-p (regexp-opt s12cpuv2-instructions 'words)
+   ((string-match-p (regexp-opt (append s12cpuv2-ops s12cpuv2-instructions) 'words)
                     (buffer-substring (point-at-bol)
                                       (save-excursion
                                         (beginning-of-line)
