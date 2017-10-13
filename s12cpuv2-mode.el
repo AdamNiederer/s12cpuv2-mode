@@ -138,6 +138,7 @@
 
 (defvar s12cpuv2-mode-map
   (let ((map (make-keymap)))
+    (define-key map (kbd "<backtab>") 's12cpuv2-dedent)
     (define-key map (kbd "C-c C-l") 's12cpuv2-goto-label-at-cursor)
     (define-key map (kbd "C-c C-k") 's12cpuv2-goto-label)
     map)
@@ -179,7 +180,15 @@
         (if (> instr-space-delta 0)
             (delete-char (- instr-space-delta))
           (insert (make-string (- instr-space-delta) ?\s))))))
-   ;; Probably a comment line
+   ;; Line is in a large block of instructions
+   ((string-match-p s12cpuv2-instruction-re
+                    (buffer-substring (save-excursion
+                                        (forward-line -1)
+                                        (point-at-bol))
+                                      (save-excursion
+                                        (forward-line -1)
+                                        (point-at-eol))))
+    (indent-line-to s12cpuv2-tab-width))
    (t (indent-line-to 0))))
 
 (defun s12cpuv2-dedent ()
