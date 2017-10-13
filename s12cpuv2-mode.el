@@ -192,7 +192,7 @@
   (interactive)
   (let ((label (or label (read-minibuffer "Go to Label: "))))
     (goto-char (point-min))
-    (re-search-forward (format "^%s" label))))
+    (re-search-forward (format "^%s " label))))
 
 (defun s12cpuv2-goto-label-at-cursor ()
   "Go to the definition of the label under point."
